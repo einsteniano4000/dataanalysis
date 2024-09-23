@@ -39,12 +39,16 @@ class PlotWidget(QWidget):
         fit_layout = QHBoxLayout()
         self.fit_type = QComboBox()
         self.fit_type.addItems(["Nessun Fit", "Lineare", "Polinomiale", "Esponenziale"])
+        self.fit_type.currentTextChanged.connect(self.on_fit_type_changed)
+        
+        self.poly_degree_label = QLabel("Grado polinomiale:")
         self.poly_degree_input = QLineEdit("2")
+        
         fit_button = QPushButton("Esegui Fit")
         fit_button.clicked.connect(self.perform_fit)
         fit_layout.addWidget(QLabel("Tipo di Fit:"))
         fit_layout.addWidget(self.fit_type)
-        fit_layout.addWidget(QLabel("Grado polinomiale:"))
+        fit_layout.addWidget(self.poly_degree_label)
         fit_layout.addWidget(self.poly_degree_input)
         fit_layout.addWidget(fit_button)
         plot_layout.addLayout(fit_layout)
@@ -61,6 +65,17 @@ class PlotWidget(QWidget):
 
         layout.addWidget(splitter)
         self.setLayout(layout)
+        
+        # Imposta lo stato iniziale del campo grado polinomiale
+        self.on_fit_type_changed(self.fit_type.currentText())
+
+    def on_fit_type_changed(self, fit_type):
+        if fit_type == "Polinomiale":
+            self.poly_degree_label.setVisible(True)
+            self.poly_degree_input.setVisible(True)
+        else:
+            self.poly_degree_label.setVisible(False)
+            self.poly_degree_input.setVisible(False)
 
     def update_plot(self):
         visible_series = self.data_manager.get_visible_series()
@@ -84,15 +99,12 @@ class PlotWidget(QWidget):
             if fit_type == "Polinomiale":
                 degree = int(self.poly_degree_input.text())
                 result = self.regression.perform_fit(series.x_data, series.y_data, fit_type, degree=degree)
+                x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type, degree=degree)
             else:
                 result = self.regression.perform_fit(series.x_data, series.y_data, fit_type)
+                x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type)
 
             if result:
-                if fit_type == "Polinomiale":
-                    x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type, degree=degree)
-                else:
-                    x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type)
-
                 if fit_type == "Lineare":
                     equation = f"y = {result['slope']:.4f}x + {result['intercept']:.4f}"
                     results_text += f"Serie: {series.name}\n"
@@ -115,12 +127,6 @@ class PlotWidget(QWidget):
                 
                 results_text += f"R²: {result['r_squared']:.4f}\n\n"
                 self.data_viz.plot_fit(series, x_fit, y_fit, equation)
-
-                # Stampe di debug
-                print(f"Performing fit: type={fit_type}, degree={degree if fit_type == 'Polinomiale' else 'N/A'}")
-                print(f"Result: {result}")
-                print(f"x_fit: {x_fit}")
-                print(f"y_fit: {y_fit}")
 
         self.results_text.setText(results_text)
 
