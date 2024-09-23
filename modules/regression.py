@@ -10,7 +10,6 @@ class Regression:
         n = len(x)
         x_mean = np.mean(x)
         intercept_err = std_err * np.sqrt(1/n + x_mean**2 / np.sum((x - x_mean)**2))
-
         return {
             'slope': slope,
             'intercept': intercept,
@@ -38,6 +37,9 @@ class Regression:
         residual_variance = np.sum(residuals**2) / (n - degree - 1)
         var_matrix = residual_variance * np.linalg.inv(np.dot(np.vander(x, degree + 1).T, np.vander(x, degree + 1)))
         coeff_errors = np.sqrt(np.diag(var_matrix))
+
+        print(f"Polynomial regression with degree: {degree}")
+        print(f"Coefficients: {coeffs}")
 
         return {
             'coefficients': coeffs,
@@ -76,6 +78,7 @@ class Regression:
 
     @classmethod
     def perform_fit(cls, x, y, fit_type, degree=2):
+        print(f"Performing fit: type={fit_type}, degree={degree}")
         if fit_type == "Lineare":
             return cls.linear_regression(x, y)
         elif fit_type == "Polinomiale":

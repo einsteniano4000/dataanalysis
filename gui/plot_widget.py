@@ -39,10 +39,13 @@ class PlotWidget(QWidget):
         fit_layout = QHBoxLayout()
         self.fit_type = QComboBox()
         self.fit_type.addItems(["Nessun Fit", "Lineare", "Polinomiale", "Esponenziale"])
+        self.poly_degree_input = QLineEdit("2")
         fit_button = QPushButton("Esegui Fit")
         fit_button.clicked.connect(self.perform_fit)
         fit_layout.addWidget(QLabel("Tipo di Fit:"))
         fit_layout.addWidget(self.fit_type)
+        fit_layout.addWidget(QLabel("Grado polinomiale:"))
+        fit_layout.addWidget(self.poly_degree_input)
         fit_layout.addWidget(fit_button)
         plot_layout.addLayout(fit_layout)
 
@@ -78,9 +81,18 @@ class PlotWidget(QWidget):
 
         results_text = ""
         for series in self.data_manager.get_visible_series():
-            result = self.regression.perform_fit(series.x_data, series.y_data, fit_type)
+            if fit_type == "Polinomiale":
+                degree = int(self.poly_degree_input.text())
+                result = self.regression.perform_fit(series.x_data, series.y_data, fit_type, degree=degree)
+            else:
+                result = self.regression.perform_fit(series.x_data, series.y_data, fit_type)
+
             if result:
-                x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type)
+                if fit_type == "Polinomiale":
+                    x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type, degree=degree)
+                else:
+                    x_fit, y_fit = self.regression.get_fit_data(series.x_data, result, fit_type)
+
                 if fit_type == "Lineare":
                     equation = f"y = {result['slope']:.4f}x + {result['intercept']:.4f}"
                     results_text += f"Serie: {series.name}\n"
@@ -103,6 +115,12 @@ class PlotWidget(QWidget):
                 
                 results_text += f"R²: {result['r_squared']:.4f}\n\n"
                 self.data_viz.plot_fit(series, x_fit, y_fit, equation)
+
+                # Stampe di debug
+                print(f"Performing fit: type={fit_type}, degree={degree if fit_type == 'Polinomiale' else 'N/A'}")
+                print(f"Result: {result}")
+                print(f"x_fit: {x_fit}")
+                print(f"y_fit: {y_fit}")
 
         self.results_text.setText(results_text)
 
