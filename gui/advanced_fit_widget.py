@@ -116,7 +116,7 @@ class AdvancedFitWidget(QWidget):
                     return a * np.exp(b * x)
                 result = self.regression.nonlinear_regression(exp_func, p0=[1, 0.1])
                 if result:
-                    x_fit, y_fit = self.regression.get_nonlinear_fit(exp_func, p0=[1, 0.1])
+                    x_fit, y_fit = self.regression.get_nonlinear_fit(x, exp_func, {'parameters': [1, 0.1]})
                     equation = f"y = {result['parameters'][0]:.4f} * exp({result['parameters'][1]:.4f}x)"
                     self.plot_fit(x, y, x_fit, y_fit, equation, x_err, y_err)
                     self.display_results(result, equation)
