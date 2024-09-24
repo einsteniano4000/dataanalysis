@@ -106,7 +106,7 @@ class AdvancedFitWidget(QWidget):
             elif fit_type == "Polinomiale":
                 degree = int(self.poly_degree.text())
                 result = self.regression.polynomial_regression(degree)
-                x_fit, y_fit = self.regression.get_polynomial_fit(degree)
+                x_fit, y_fit = self.regression.get_polynomial_fit(x, result)
                 equation = f"y = {' + '.join([f'{p:.4f}x^{degree-i}' for i, p in enumerate(result['coefficients'])])}"
                 self.plot_fit(x, y, x_fit, y_fit, equation, x_err, y_err)
                 self.display_results(result, equation)

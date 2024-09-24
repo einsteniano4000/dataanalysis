@@ -1,15 +1,33 @@
 from sympy import symbols, sympify, diff
 from sympy.parsing.sympy_parser import parse_expr
+import numpy as np
 
 class ErrorPropagation:
     def __init__(self):
         self.variables = {}
 
     def add_variable(self, name, value, error):
-        self.variables[name] = {"value": value, "error": error}
+        try:
+            # Check if the value is a NumPy constant
+            if isinstance(value, str) and value.startswith('np.'):
+                value = eval(value)
+            if isinstance(error, str) and error.startswith('np.'):
+                error = eval(error)
+            
+            self.variables[name] = {"value": float(value), "error": float(error)}
+        except Exception as e:
+            raise ValueError(f"Errore nell'aggiunta della variabile: {str(e)}")
 
     def calculate(self, expression_str):
         try:
+            # Replace numpy functions with their sympy equivalents
+            for np_func in ['sin', 'cos', 'tan', 'exp', 'log', 'sqrt']:
+                expression_str = expression_str.replace(f'np.{np_func}', np_func)
+            
+            # Replace numpy constants
+            expression_str = expression_str.replace('np.pi', str(np.pi))
+            expression_str = expression_str.replace('np.e', str(np.e))
+            
             expr = parse_expr(expression_str)
             var_symbols = {name: symbols(name) for name in self.variables.keys()}
             result = expr.evalf(subs={var_symbols[name]: var['value'] for name, var in self.variables.items()})
@@ -18,8 +36,9 @@ class ErrorPropagation:
             for var_name, var_data in self.variables.items():
                 partial_derivative = diff(expr, var_symbols[var_name])
                 error_contribution = abs(partial_derivative.evalf(subs={var_symbols[name]: var['value'] for name, var in self.variables.items()})) * var_data['error']
-                error += error_contribution
+                error += error_contribution**2
             
+            error = error**0.5  # Take square root for total error
             relative_error = error / abs(result)
             percentage_error = relative_error * 100
 

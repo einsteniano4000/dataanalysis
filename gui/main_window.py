@@ -1,10 +1,13 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QTabWidget, QSplitter, QLineEdit, QSpinBox, QPushButton, QLabel, QDoubleSpinBox
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
+                             QTabWidget, QSplitter, QLineEdit, QSpinBox, QPushButton, QLabel, 
+                             QDoubleSpinBox, QCompleter)
 from PyQt5.QtCore import Qt
 from modules.data_manager import DataManager
 from gui.series_management_widget import SeriesManagementWidget
 from gui.plot_widget import PlotWidget
 from gui.statistical_analysis_widget import StatisticalAnalysisWidget
 from gui.error_propagation_widget import ErrorPropagationWidget
+import numpy as np
 
 class FormulaInputWidget(QWidget):
     def __init__(self, parent=None):
@@ -15,6 +18,9 @@ class FormulaInputWidget(QWidget):
         self.formula_input.setPlaceholderText("Inserisci la formula (es. x**2 + 2*x + 1)")
         layout.addWidget(QLabel("Formula:"))
         layout.addWidget(self.formula_input)
+
+        # Setup autocomplete for formula input
+        self.setup_autocomplete()
 
         range_layout = QHBoxLayout()
         self.x_min_input = QDoubleSpinBox()
@@ -41,6 +47,16 @@ class FormulaInputWidget(QWidget):
         button_layout.addWidget(self.generate_button)
         button_layout.addWidget(self.remove_last_button)
         layout.addLayout(button_layout)
+
+    def setup_autocomplete(self):
+        np_functions = [func for func in dir(np) if callable(getattr(np, func)) and not func.startswith("_")]
+        np_constants = [const for const in dir(np) if not callable(getattr(np, const)) and not const.startswith("_")]
+        autocomplete_list = ["np." + item for item in np_functions + np_constants]
+        
+        completer = QCompleter(autocomplete_list)
+        completer.setCaseSensitivity(False)
+        completer.setFilterMode(Qt.MatchContains)
+        self.formula_input.setCompleter(completer)
 
 class MainWindow(QMainWindow):
     def __init__(self):
