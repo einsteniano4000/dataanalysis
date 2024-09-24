@@ -36,7 +36,7 @@ python3 -m venv venv
 
 #### Per Windows:
 ```
-venv\Scripts\activate
+.\venv\Scripts\activate.bat
 ```
 
 #### Per Linux/macOS:
