@@ -18,33 +18,68 @@ Il programma utilizza le seguenti librerie Python:
 - sympy
 - PyQt5
 
-## Installazione
+## Installazione e Avvio
 
-### 1. Crea un ambiente virtuale
+### Metodo Automatico
+
+Per semplificare il processo di installazione e avvio, abbiamo creato script di lancio per i principali sistemi operativi.
 
 #### Per Windows:
+1. Fai doppio clic sul file `launch.bat` nella cartella del progetto.
+
+#### Per Linux:
+1. Apri un terminale nella cartella del progetto.
+2. Rendi lo script eseguibile con il comando:
+   ```
+   chmod +x launch.sh
+   ```
+3. Esegui lo script:
+   ```
+   ./launch.sh
+   ```
+
+#### Per macOS:
+1. Apri un terminale nella cartella del progetto.
+2. Rendi lo script eseguibile con il comando:
+   ```
+   chmod +x launch_mac.sh
+   ```
+3. Esegui lo script:
+   ```
+   ./launch_mac.sh
+   ```
+
+Questi script automatizzeranno l'intero processo di creazione dell'ambiente virtuale, installazione delle dipendenze e avvio dell'applicazione.
+
+### Metodo Manuale
+
+Se preferisci l'installazione manuale, segui questi passaggi:
+
+#### 1. Crea un ambiente virtuale
+
+##### Per Windows:
 ```
 python -m venv venv
 ```
 
-#### Per Linux/macOS:
+##### Per Linux/macOS:
 ```
 python3 -m venv venv
 ```
 
-### 2. Attiva l'ambiente virtuale
+#### 2. Attiva l'ambiente virtuale
 
-#### Per Windows:
+##### Per Windows:
 ```
-.\venv\Scripts\activate.bat
+.\venv\Scripts\activate
 ```
 
-#### Per Linux/macOS:
+##### Per Linux/macOS:
 ```
 source venv/bin/activate
 ```
 
-### 3. Installa le dipendenze
+#### 3. Installa le dipendenze
 
 Con l'ambiente virtuale attivato, esegui:
 
@@ -52,12 +87,10 @@ Con l'ambiente virtuale attivato, esegui:
 pip install -r requirements.txt
 ```
 
-## Avvio dell'applicazione
-
-Per avviare l'applicazione, assicurati che l'ambiente virtuale sia attivato, quindi esegui:
+#### 4. Avvia l'applicazione
 
 ```
-python3 main.py
+python main.py
 ```
 
 ## Contribuire
