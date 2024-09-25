@@ -7,91 +7,68 @@ Questa applicazione è progettata per eseguire diverse operazioni matematiche e 
 - Statistica di una variabile
 - Calcolo dell'errore propagato in una misura indiretta (propagazione di errori massimi)
 
-## Dipendenze
+## Requisiti
 
-Il programma utilizza le seguenti librerie Python:
-
-- numpy
-- matplotlib
-- pandas
-- scipy
-- sympy
-- PyQt5
+- Python 3.x
+- pip (generalmente incluso con Python)
 
 ## Installazione e Avvio
 
-### Metodo Automatico
+Segui queste istruzioni per installare e avviare l'applicazione usando il terminale.
 
-Per semplificare il processo di installazione e avvio, abbiamo creato script di lancio per i principali sistemi operativi.
+### Per Windows:
 
-#### Per Windows:
-1. Fai doppio clic sul file `launch.bat` nella cartella del progetto.
-
-#### Per Linux:
-1. Apri un terminale nella cartella del progetto.
-2. Rendi lo script eseguibile con il comando:
+1. Apri il Prompt dei Comandi o PowerShell
+2. Naviga alla directory del progetto:
    ```
-   chmod +x launch.sh
+   cd percorso\della\tua\applicazione
    ```
-3. Esegui lo script:
+3. Crea un ambiente virtuale (se non esiste):
    ```
-   ./launch.sh
+   python -m venv venv
    ```
-
-#### Per macOS:
-1. Apri un terminale nella cartella del progetto.
-2. Rendi lo script eseguibile con il comando:
+4. Attiva l'ambiente virtuale:
    ```
-   chmod +x launch_mac.sh
+   venv\Scripts\activate
    ```
-3. Esegui lo script:
+5. Installa le dipendenze (solo se non sono già installate):
    ```
-   ./launch_mac.sh
+   pip install -r requirements.txt
+   ```
+6. Avvia l'applicazione:
+   ```
+   python main.py
    ```
 
-Questi script automatizzeranno l'intero processo di creazione dell'ambiente virtuale, installazione delle dipendenze e avvio dell'applicazione.
+### Per macOS e Linux:
 
-### Metodo Manuale
+1. Apri il Terminale
+2. Naviga alla directory del progetto:
+   ```
+   cd percorso/della/tua/applicazione
+   ```
+3. Crea un ambiente virtuale (se non esiste):
+   ```
+   python3 -m venv venv
+   ```
+4. Attiva l'ambiente virtuale:
+   ```
+   source venv/bin/activate
+   ```
+5. Installa le dipendenze (solo se non sono già installate):
+   ```
+   pip install -r requirements.txt
+   ```
+6. Avvia l'applicazione:
+   ```
+   python main.py
+   ```
 
-Se preferisci l'installazione manuale, segui questi passaggi:
+## Note
 
-#### 1. Crea un ambiente virtuale
-
-##### Per Windows:
-```
-python -m venv venv
-```
-
-##### Per Linux/macOS:
-```
-python3 -m venv venv
-```
-
-#### 2. Attiva l'ambiente virtuale
-
-##### Per Windows:
-```
-.\venv\Scripts\activate
-```
-
-##### Per Linux/macOS:
-```
-source venv/bin/activate
-```
-
-#### 3. Installa le dipendenze
-
-Con l'ambiente virtuale attivato, esegui:
-
-```
-pip install -r requirements.txt
-```
-
-#### 4. Avvia l'applicazione
-
-```
-python main.py
-```
+- Se l'ambiente virtuale esiste già e i pacchetti sono installati, puoi semplicemente attivare l'ambiente e avviare l'applicazione (passi 4 e 6).
+- Per disattivare l'ambiente virtuale dopo l'uso, esegui il comando `deactivate`.
+- Se incontri problemi durante l'installazione dei pacchetti, assicurati che il file `requirements.txt` sia presente nella directory del progetto.
 
 ## Contribuire
 
