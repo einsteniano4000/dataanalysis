@@ -1,4 +1,4 @@
-from sympy import symbols, sympify, diff
+from sympy import symbols, sympify, diff, Abs
 from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
 
@@ -35,10 +35,9 @@ class ErrorPropagation:
             error = 0
             for var_name, var_data in self.variables.items():
                 partial_derivative = diff(expr, var_symbols[var_name])
-                error_contribution = abs(partial_derivative.evalf(subs={var_symbols[name]: var['value'] for name, var in self.variables.items()})) * var_data['error']
-                error += error_contribution**2
+                error_contribution = Abs(partial_derivative.evalf(subs={var_symbols[name]: var['value'] for name, var in self.variables.items()})) * var_data['error']
+                error += error_contribution  # Somma lineare invece di quadratura
             
-            error = error**0.5  # Take square root for total error
             relative_error = error / abs(result)
             percentage_error = relative_error * 100
 
