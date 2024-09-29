@@ -77,3 +77,4 @@ Le istruzioni per contribuire al progetto verranno aggiunte in futuro.
 ## Licenza
 
 Questo progetto è rilasciato sotto la licenza MIT. Vedi il file `LICENSE` per i dettagli completi.
+
