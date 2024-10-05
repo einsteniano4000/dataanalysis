@@ -29,7 +29,7 @@ Segui queste istruzioni per installare e avviare l'applicazione usando il termin
    ```
 4. Attiva l'ambiente virtuale:
    ```
-   venv\Scripts\activate
+   .\venv\Scripts\activate
    ```
 5. Installa le dipendenze (solo se non sono già installate):
    ```
