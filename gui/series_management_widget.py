@@ -1,13 +1,13 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
                              QListWidget, QListWidgetItem, QInputDialog, QFileDialog,
                              QMessageBox)
-from PyQt5.QtCore import Qt, pyqtSignal
+from PySide6.QtCore import Qt, Signal
 import numpy as np
 import csv
 
 class SeriesManagementWidget(QWidget):
-    seriesUpdated = pyqtSignal()
-    seriesRemoved = pyqtSignal(int)
+    seriesUpdated = Signal()
+    seriesRemoved = Signal(int)
 
     def __init__(self, data_manager):
         super().__init__()

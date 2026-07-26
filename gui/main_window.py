@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                              QTabWidget, QSplitter, QLineEdit, QSpinBox, QPushButton, QLabel,
-                             QDoubleSpinBox, QCompleter, QAction, QFileDialog, QMessageBox)
-from PyQt5.QtCore import Qt
+                             QDoubleSpinBox, QCompleter, QFileDialog, QMessageBox)
+from PySide6.QtGui import QAction
+from PySide6.QtCore import Qt
 from modules.data_manager import DataManager
 from gui.series_management_widget import SeriesManagementWidget
 from gui.plot_widget import PlotWidget
@@ -55,7 +56,7 @@ class FormulaInputWidget(QWidget):
         autocomplete_list = ["np." + item for item in np_functions + np_constants]
         
         completer = QCompleter(autocomplete_list)
-        completer.setCaseSensitivity(False)
+        completer.setCaseSensitivity(Qt.CaseInsensitive)
         completer.setFilterMode(Qt.MatchContains)
         self.formula_input.setCompleter(completer)
 
@@ -180,4 +181,4 @@ if __name__ == "__main__":
     app = QApplication([])
     main_window = MainWindow()
     main_window.show()
-    app.exec_()
+    app.exec()

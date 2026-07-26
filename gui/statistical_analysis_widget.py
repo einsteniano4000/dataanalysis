@@ -1,15 +1,15 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QLineEdit, QLabel, QTextEdit, QSpinBox, QInputDialog, QMessageBox)
-from PyQt5.QtCore import Qt, pyqtSignal
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from PySide6.QtCore import Qt, Signal
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
 from modules.statistical_analysis import StatisticalAnalysis
 from utils.helpers import format_value_with_error, round_to_significant_figures
 import numpy as np
 
 class StatisticalAnalysisWidget(QWidget):
-    variableComputed = pyqtSignal(str, float, float)
+    variableComputed = Signal(str, float, float)
 
     def __init__(self):
         super().__init__()

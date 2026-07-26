@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
                              QLineEdit, QLabel, QTextEdit, QCompleter)
-from PyQt5.QtCore import QStringListModel, Qt
+from PySide6.QtCore import QStringListModel, Qt
 from modules.error_propagation import ErrorPropagation
 from utils.helpers import format_value_with_error, round_to_significant_figures
 import numpy as np
@@ -62,7 +62,7 @@ class ErrorPropagationWidget(QWidget):
         autocomplete_list = ["np." + item for item in np_functions + np_constants]
         
         completer = QCompleter(autocomplete_list)
-        completer.setCaseSensitivity(False)
+        completer.setCaseSensitivity(Qt.CaseInsensitive)
         completer.setFilterMode(Qt.MatchContains)
         self.expression.setCompleter(completer)
 
